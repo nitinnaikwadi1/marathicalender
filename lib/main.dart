@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:marathicalender/properties/app_constants.dart' as properties;
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,7 +43,15 @@ class _CalenderHomePageState extends State<CalenderHome> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFE4365),
         foregroundColor: Colors.white,
-        title: Text(properties.currentDate),
+        title: Text(
+          properties.currentDate,
+          style: GoogleFonts.eczar(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.today_outlined),

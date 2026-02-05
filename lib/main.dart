@@ -26,6 +26,8 @@ class CalenderHome extends StatefulWidget {
 
 class _CalenderHomePageState extends State<CalenderHome> {
   final CarouselSliderController _pagesController = CarouselSliderController();
+  final _transformationController = TransformationController();
+  late TapDownDetails _doubleTapDetails;
 
   @override
   void initState() {
@@ -65,16 +67,18 @@ class _CalenderHomePageState extends State<CalenderHome> {
         carouselController: _pagesController,
         items: properties.monthsImgList
             .map(
-              (item) => InteractiveViewer(
-                minScale: 1,
-                maxScale: 4.0,
-                panEnabled: true,
-                boundaryMargin: const EdgeInsets.all(0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(item),
+              (item) => GestureDetector(
+                onDoubleTapDown: (d) => _doubleTapDetails = d,
+                onDoubleTap: _handleDoubleTap,
+                child: InteractiveViewer(
+                  transformationController: _transformationController,
+                  boundaryMargin: const EdgeInsets.all(0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage(item),
+                      ),
                     ),
                   ),
                 ),
@@ -83,5 +87,20 @@ class _CalenderHomePageState extends State<CalenderHome> {
             .toList(),
       ),
     );
+  }
+
+  void _handleDoubleTap() {
+    if (_transformationController.value != Matrix4.identity()) {
+      _transformationController.value = Matrix4.identity();
+    } else {
+      final position = _doubleTapDetails.localPosition;
+      // For a 3x zoom
+      _transformationController.value = Matrix4.identity()
+        ..translate(-position.dx * 2, -position.dy * 2)
+        ..scale(3.0);
+      // Fox a 2x zoom
+      // ..translate(-position.dx, -position.dy)
+      // ..scale(2.0);
+    }
   }
 }

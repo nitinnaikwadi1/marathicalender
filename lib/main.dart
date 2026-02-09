@@ -64,7 +64,6 @@ class _CalenderHomePageState extends State<CalenderHome> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         elevation: 50,
-        toolbarHeight: 50,
       ),
       body: CarouselSlider(
         options: CarouselOptions(
@@ -105,8 +104,8 @@ class _CalenderHomePageState extends State<CalenderHome> {
       final position = _doubleTapDetails.localPosition;
       // For a 3x zoom
       _transformationController.value = Matrix4.identity()
-        ..translate(-position.dx * 2, -position.dy * 2)
-        ..scale(3.0);
+        ..translateByDouble(-position.dx * 1.5, -position.dy * 1.5,0.5,0.5)
+        ..scale(2);
       // Fox a 2x zoom
       // ..translate(-position.dx, -position.dy)
       // ..scale(2.0);
